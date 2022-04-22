@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class WalletFactory extends Factory
     public function definition()
     {
         return [
-            'coins' => 20,
+            'coins' => Wallet::INITIAL_COINS,
             'company_id' => 1,
         ];
     }

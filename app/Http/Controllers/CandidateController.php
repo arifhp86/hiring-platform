@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
-use App\Models\CandidateContact;
 use App\Models\Company;
+use App\Services\CandidateService;
 use App\Services\Exceptions\NotEnoughCoinException;
 use App\Services\WalletService;
 
 class CandidateController extends Controller
 {
-    public function __construct(private WalletService $walletService)
-    { 
-    }
+    public function __construct(
+        private WalletService $walletService,
+        private CandidateService $candidateService
+    ) {}
 
     public function index()
     {
@@ -25,16 +26,21 @@ class CandidateController extends Controller
     public function contact($id)
     {
         $candidate = Candidate::findOrfail($id);
-        $company = Company::find(1);
+        $company = Company::with('contacts')->find(1);
+
+        if(
+            $this->candidateService->alreadyContacted($candidate, $company) ||
+            $this->candidateService->alreadyHired($candidate, $company)
+        ) {
+            return response()->json([
+                'message' => 'Invalid request'
+            ], 400);
+        }
 
         try {
-            $this->walletService->charge($company->wallet, 5);
-
-            CandidateContact::create([
-                'candidate_id' => $candidate->id,
-                'company_id' => $company->id,
-            ]);
+            $this->walletService->charge($company->wallet, Candidate::CONTACT_COINS);
             
+            $this->candidateService->createContact($candidate->id, $company->id);
         } catch(NotEnoughCoinException $e) {
             return response()->json([
                 'message' => 'Sorry, you do not have enough coins to perform this action',

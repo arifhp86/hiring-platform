@@ -13,4 +13,14 @@ class Company extends Model
     {
         return $this->hasOne(Wallet::class);
     }
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Candidate::class, 'contacts');
+    }
+
+    public function hires()
+    {
+        return $this->belongsToMany(Candidate::class, 'hires');
+    }
 }
