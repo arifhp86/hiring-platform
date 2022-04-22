@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class);
+
 
 Route::get('candidates', [CandidateController::class, 'index'])->name('candidates.index');
 Route::post('candidates/{id}/contact', [CandidateController::class, 'contact'])->name('candidates.contact');
 Route::post('candidates/{id}/hire', [CandidateController::class, 'hire'])->name('candidates.hire');
+
+Route::get('{any}', HomeController::class)->where('any','.*');
