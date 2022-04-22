@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('homepage');
-});
+Route::get('/', HomeController::class);
 
-Route::get('candidates-list', [CandidateController::class, 'index']);
-Route::post('candidates-contact', [CandidateController::class, 'contact']);
+Route::get('candidates', [CandidateController::class, 'index'])->name('candidates.index');
+Route::post('candidates/{id}/contact', [CandidateController::class, 'contact'])->name('candidates.contact');
+Route::post('candidates/{id}/hire', [CandidateController::class, 'hire'])->name('candidates.hire');
