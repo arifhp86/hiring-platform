@@ -40,7 +40,7 @@ class CandidateController extends Controller
         try {
             $this->walletService->charge($company->wallet, Candidate::CONTACT_COINS);
 
-            $this->candidateService->contact($candidate->id, $company->id);
+            $this->candidateService->contact($candidate, $company);
         } catch(NotEnoughCoinException $e) {
             return response()->json([
                 'message' => 'Sorry, you do not have enough coins to perform this action',
@@ -67,7 +67,7 @@ class CandidateController extends Controller
         }
 
         $this->walletService->refund($company->wallet, Candidate::CONTACT_COINS);
-        $this->candidateService->hire($candidate->id, $company->id);
+        $this->candidateService->hire($candidate, $company);
 
         return response()->json([
             'wallet_balance' => $company->wallet->fresh()->coins,
