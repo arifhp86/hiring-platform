@@ -6,7 +6,6 @@ use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ContactACandidateTest extends TestCase
@@ -14,6 +13,8 @@ class ContactACandidateTest extends TestCase
     use RefreshDatabase;
 
     private $company;
+    
+    private $candidate;
 
     public function setUp(): void
     {

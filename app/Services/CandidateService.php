@@ -5,12 +5,21 @@ namespace App\Services;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Hire;
 
 class CandidateService
 {
-    public function createContact(int $candidateId, int $companyId): void
+    public function contact(int $candidateId, int $companyId): void
     {
         Contact::create([
+            'candidate_id' => $candidateId,
+            'company_id' => $companyId,
+        ]);
+    }
+
+    public function hire(int $candidateId, int $companyId): void
+    {
+        Hire::create([
             'candidate_id' => $candidateId,
             'company_id' => $companyId,
         ]);

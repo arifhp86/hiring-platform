@@ -39,8 +39,8 @@ class CandidateController extends Controller
 
         try {
             $this->walletService->charge($company->wallet, Candidate::CONTACT_COINS);
-            
-            $this->candidateService->createContact($candidate->id, $company->id);
+
+            $this->candidateService->contact($candidate->id, $company->id);
         } catch(NotEnoughCoinException $e) {
             return response()->json([
                 'message' => 'Sorry, you do not have enough coins to perform this action',
@@ -52,9 +52,25 @@ class CandidateController extends Controller
         ]);
     }
 
-    public function hire()
+    public function hire($id)
     {
-        // @todo
-        // Your code goes here...
+        $candidate = Candidate::findOrfail($id);
+        $company = Company::with('contacts')->find(1);
+
+        if(
+            ! $this->candidateService->alreadyContacted($candidate, $company) ||
+            $this->candidateService->alreadyHired($candidate, $company)
+        ) {
+            return response()->json([
+                'message' => 'Invalid request'
+            ], 400);
+        }
+
+        $this->walletService->refund($company->wallet, Candidate::CONTACT_COINS);
+        $this->candidateService->hire($candidate->id, $company->id);
+
+        return response()->json([
+            'wallet_balance' => $company->wallet->fresh()->coins,
+        ]);
     }
 }
