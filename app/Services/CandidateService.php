@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Mail\CandidateContacted;
+use App\Mail\CandidateHired;
 use App\Models\Candidate;
 use App\Models\Company;
 use Illuminate\Support\Facades\Mail;
@@ -12,17 +14,14 @@ class CandidateService
     {
         $company->contacts()->attach($candidate->id, ['contacted_at' => now()]);
 
-        $messageText = "Hey there, {$company->name} wants to contact you, we provided your contact ";
-        $messageText .= "information to them, hopefully you will here form them soon.";
-        $this->sendEmail($candidate->email, 'You have been contacted!', $messageText);
+        Mail::to($candidate->email)->send(new CandidateContacted($company));
     }
 
     public function hire(Candidate $candidate, Company $company): void
     {
         $company->hires()->attach($candidate->id, ['hired_at' => now()]);
 
-        $messageText = "Congratulatons, you have been hired by {$company->name}";
-        $this->sendEmail($candidate->email, 'You have been hired!', $messageText);
+        Mail::to($candidate->email)->send(new CandidateHired($company));
     }
 
     public function alreadyContacted(Candidate $candidate, Company $company): bool
@@ -33,14 +32,5 @@ class CandidateService
     public function alreadyHired(Candidate $candidate, Company $company)
     {
         return $candidate->hires->contains(fn($value) => $value->id === $company->id);
-    }
-
-    private function sendEmail(string $to, string $subject, string $message)
-    {
-        Mail::raw($message, function ($message) use ($to, $subject) {
-            $message->to($to);
-            $message->subject($subject);
-            $message->from('example@email.com');
-        });
     }
 }

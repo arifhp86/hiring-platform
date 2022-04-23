@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Mail\CandidateContacted;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ContactACandidateTest extends TestCase
@@ -68,11 +70,20 @@ class ContactACandidateTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function test_con_not_contact_if_already_contacted()
+    public function test_can_not_contact_if_already_contacted()
     {
         $this->post("candidates/{$this->candidate->id}/contact");
 
         $response = $this->post("candidates/{$this->candidate->id}/contact");
         $response->assertStatus(400);
+    }
+
+    public function test_email_sent_with_contact()
+    {
+        Mail::fake();
+
+        $this->post("candidates/{$this->candidate->id}/contact");
+
+        Mail::assertSent(CandidateContacted::class);
     }
 }

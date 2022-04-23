@@ -1,0 +1,1 @@
+Hey there, {{ $company->name }} wants to contact you, we provided your contact information to them, hopefully you will here form them soon.

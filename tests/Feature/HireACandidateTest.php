@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Mail\CandidateHired;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class HireACandidateTest extends TestCase
@@ -71,5 +73,15 @@ class HireACandidateTest extends TestCase
             'company_id' => $this->company->id,
             'coins' => Wallet::INITIAL_COINS,
         ]);
+    }
+
+    public function test_email_sent_with_hire()
+    {
+        Mail::fake();
+
+        $this->post("candidates/{$this->candidate->id}/contact");
+        $this->post("candidates/{$this->candidate->id}/hire");
+
+        Mail::assertSent(CandidateHired::class);
     }
 }
