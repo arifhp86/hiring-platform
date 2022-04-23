@@ -89,6 +89,7 @@ export default {
                     icon: 'error',
                     text: 'Sorry, you don not have enough coins to perform this action, please recharge.'
                 });
+                
                 return;
             }
 
@@ -124,6 +125,15 @@ export default {
         },
 
         confirmHire(candidate) {
+            if(! this.contacts.includes(candidate.id)) {
+                this.$swal({
+                    icon: 'error',
+                    text: 'Sorry, you can only hire a candidate after you contact him'
+                });
+
+                return;
+            }
+
             this.$swal({
                 icon: 'info',
                 html: 'Are you sure you want to hire this candidate, we will <strong>refund you 5 coins</strong> if you do, click confirm button to proceed',
