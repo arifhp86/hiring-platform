@@ -18,7 +18,7 @@ class CandidateController extends Controller
 
     public function index()
     {
-        $candidates = Candidate::all();
+        $candidates = Candidate::with('strengths')->get();
         $company = Company::with('contacts', 'hires')->find(1);
         $coins = $company->wallet->coins;
 

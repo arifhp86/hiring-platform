@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('candidates', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->text('description');
-            $table->timestamps();
+        Schema::create('candidate_candidate_strength', function (Blueprint $table) {
+            $table->foreignId('candidate_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('candidate_strength_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('candidates');
+        Schema::dropIfExists('candidate_candidate_strength');
     }
 };

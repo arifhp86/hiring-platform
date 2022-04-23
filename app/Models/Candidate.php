@@ -20,4 +20,9 @@ class Candidate extends Model
     {
         return $this->belongsToMany(Company::class, 'hires');
     }
+
+    public function strengths()
+    {
+        return $this->belongsToMany(CandidateStrength::class);
+    }
 }
