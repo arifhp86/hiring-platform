@@ -20,7 +20,7 @@ class CandidateController extends Controller
         $candidates = Candidate::all();
         $coins = Company::find(1)->wallet->coins;
 
-        return response()->json(compact('candiates', 'coins'));
+        return response()->json(compact('candidates', 'coins'));
     }
 
     public function contact($id)

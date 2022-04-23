@@ -24,14 +24,24 @@
 
 <script>
 import AppLayout from "../layouts/AppLayout.vue";
+import axios from 'axios';
 
 export default {
-    props: {
-        candidates: Array,
-        coins: Number,
-    },
     components: {
         AppLayout,
+    },
+    data() {
+        return {
+            candidates: [],
+            coins: 0
+        }
+    },
+    mounted() {
+        axios.get('/candidates')
+            .then((res) => {
+                this.candidates = res.data.candidates;
+                this.coins = res.data.coins;
+            })
     }
 }
 </script>
