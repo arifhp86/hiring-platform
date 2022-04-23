@@ -4,18 +4,13 @@ namespace App\Services;
 
 use App\Models\Candidate;
 use App\Models\Company;
-use App\Models\Contact;
-use App\Models\Hire;
 use Illuminate\Support\Facades\Mail;
 
 class CandidateService
 {
     public function contact(Candidate $candidate, Company $company): void
     {
-        Contact::create([
-            'candidate_id' => $candidate->id,
-            'company_id' => $company->id,
-        ]);
+        $company->contacts()->attach($candidate->id, ['contacted_at' => now()]);
 
         $messageText = "Hey there, {$company->name} wants to contact you, we provided your contact ";
         $messageText .= "information to them, hopefully you will here form them soon.";
@@ -24,10 +19,7 @@ class CandidateService
 
     public function hire(Candidate $candidate, Company $company): void
     {
-        Hire::create([
-            'candidate_id' => $candidate->id,
-            'company_id' => $company->id,
-        ]);
+        $company->hires()->attach($candidate->id, ['hired_at' => now()]);
 
         $messageText = "Congratulatons, you have been hired by {$company->name}";
         $this->sendEmail($candidate->email, 'You have been hired!', $messageText);
