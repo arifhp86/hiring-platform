@@ -9,7 +9,7 @@ class WalletService
 {
     public function charge(Wallet $wallet, int $amount)
     {
-        if($wallet->coins < $amount) {
+        if ($wallet->coins < $amount) {
             throw new NotEnoughCoinException('This wallet does not contain enough coin, could not charge');
         }
 

@@ -13,7 +13,8 @@ class CandidateController extends Controller
     public function __construct(
         private WalletService $walletService,
         private CandidateService $candidateService
-    ) {}
+    ) {
+    }
 
     public function index()
     {
@@ -29,7 +30,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrfail($id);
         $company = Company::with('contacts')->find(1);
 
-        if(
+        if (
             $this->candidateService->alreadyContacted($candidate, $company) ||
             $this->candidateService->alreadyHired($candidate, $company)
         ) {
@@ -42,7 +43,7 @@ class CandidateController extends Controller
             $this->walletService->charge($company->wallet, Candidate::CONTACT_COINS);
 
             $this->candidateService->contact($candidate, $company);
-        } catch(NotEnoughCoinException $e) {
+        } catch (NotEnoughCoinException $e) {
             return response()->json([
                 'message' => 'Sorry, you do not have enough coins to perform this action',
             ], 422);
@@ -58,7 +59,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrfail($id);
         $company = Company::with('contacts')->find(1);
 
-        if(
+        if (
             ! $this->candidateService->alreadyContacted($candidate, $company) ||
             $this->candidateService->alreadyHired($candidate, $company)
         ) {

@@ -17,7 +17,8 @@ class CandidateService
             'company_id' => $company->id,
         ]);
 
-        $messageText = "Hey there, {$company->name} wants to contact you, we provided your contact information to them, hopefully you will here form them soon.";
+        $messageText = "Hey there, {$company->name} wants to contact you, we provided your contact ";
+        $messageText .= "information to them, hopefully you will here form them soon.";
         $this->sendEmail($candidate->email, 'You have been contacted!', $messageText);
     }
 
@@ -44,7 +45,7 @@ class CandidateService
 
     private function sendEmail(string $to, string $subject, string $message)
     {
-        Mail::raw($message, function($message) use($to, $subject) {
+        Mail::raw($message, function ($message) use ($to, $subject) {
             $message->to($to);
             $message->subject($subject);
             $message->from('example@email.com');

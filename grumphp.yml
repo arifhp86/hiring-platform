@@ -2,6 +2,16 @@ grumphp:
   tasks:
     phpcs:
       standard: PSR12
-      ignore_patterns: [./tests/*, ./resources/*, ./database/*, ./bootstrap/*, ./config/*, ./routes/*, ./public/*, ./Console/Kernel.php]
+      ignore_patterns: [
+        ./tests/*,
+        ./resources/*,
+        ./database/*,
+        ./bootstrap/*,
+        ./config/*,
+        ./routes/*,
+        ./public/*,
+        ./Console/Kernel.php,
+        ./app/Http/Controllers/Controller.php
+      ]
     phpunit:
       always_execute: true
