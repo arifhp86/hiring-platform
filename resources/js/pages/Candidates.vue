@@ -91,7 +91,7 @@ export default {
                 });
                 return;
             }
-            
+
             this.$swal({
                 icon: 'info',
                 html: `Contacting <strong>${candidate.name}</strong> will cost <strong>5 coins</strong> from your wallet, click confirm button to proceed`,
@@ -115,7 +115,7 @@ export default {
                     this.$swal({
                         toast: true,
                         icon: 'success',
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 3000,
                         title: 'Contacted successfully'
@@ -147,7 +147,7 @@ export default {
                     this.$swal({
                         toast: true,
                         icon: 'success',
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 3000,
                         title: 'Hired successfully'
