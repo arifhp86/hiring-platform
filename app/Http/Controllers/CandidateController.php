@@ -17,10 +17,11 @@ class CandidateController extends Controller
 
     public function index()
     {
-        $candidates = Candidate::all();
-        $coins = Company::find(1)->wallet->coins;
+        $candidates = Candidate::with('contacts', 'hires')->get();
+        $company = Company::with('contacts', 'hires')->find(1);
+        $coins = $company->wallet->coins;
 
-        return response()->json(compact('candidates', 'coins'));
+        return response()->json(compact('candidates', 'coins', 'company'));
     }
 
     public function contact($id)
