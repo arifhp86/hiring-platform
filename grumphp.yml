@@ -1,0 +1,7 @@
+grumphp:
+  tasks:
+    phpcs:
+      standard: PSR12
+      ignore_patterns: [./tests/*, ./resources/*, ./database/*, ./bootstrap/*, ./config/*, ./routes/*, ./public/*, ./Console/Kernel.php]
+    phpunit:
+      always_execute: true
