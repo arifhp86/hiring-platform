@@ -57,4 +57,19 @@ class HireACandidateTest extends TestCase
 
         $response->assertStatus(400);
     }
+
+    public function test_company_will_get_refund_when_hired()
+    {
+        $this->post("candidates/{$this->candidate->id}/contact");
+        $this->assertDatabaseHas('wallets', [
+            'company_id' => $this->company->id,
+            'coins' => Wallet::INITIAL_COINS - Candidate::CONTACT_COINS,
+        ]);
+
+        $this->post("candidates/{$this->candidate->id}/hire");
+        $this->assertDatabaseHas('wallets', [
+            'company_id' => $this->company->id,
+            'coins' => Wallet::INITIAL_COINS,
+        ]);
+    }
 }
