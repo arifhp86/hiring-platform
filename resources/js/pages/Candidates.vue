@@ -30,6 +30,9 @@ export default {
     components: {
         AppLayout,
     },
+    metaInfo: {
+      title: 'Candidates',
+    },
     data() {
         return {
             candidates: [],
