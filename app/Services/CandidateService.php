@@ -18,10 +18,7 @@ class CandidateService
         ]);
 
         $messageText = "Hey there, {$company->name} wants to contact you, we provided your contact information to them, hopefully you will here form them soon.";
-        Mail::raw($messageText, function($message) use($candidate) {
-            $message->to($candidate->email);
-            $message->subject('You have been contacted!');
-        });
+        $this->sendEmail($candidate->email, 'You have been contacted!', $messageText);
     }
 
     public function hire(Candidate $candidate, Company $company): void
@@ -32,10 +29,7 @@ class CandidateService
         ]);
 
         $messageText = "Congratulatons, you have been hired by {$company->name}";
-        Mail::raw($messageText, function($message) use($candidate) {
-            $message->to($candidate->email);
-            $message->subject('You have been hired!');
-        });
+        $this->sendEmail($candidate->email, 'You have been hired!', $messageText);
     }
 
     public function alreadyContacted(Candidate $candidate, Company $company): bool
@@ -46,5 +40,14 @@ class CandidateService
     public function alreadyHired(Candidate $candidate, Company $company)
     {
         return $candidate->hires->contains(fn($value) => $value->id === $company->id);
+    }
+
+    private function sendEmail(string $to, string $subject, string $message)
+    {
+        Mail::raw($message, function($message) use($to, $subject) {
+            $message->to($to);
+            $message->subject($subject);
+            $message->from('example@email.com');
+        });
     }
 }
