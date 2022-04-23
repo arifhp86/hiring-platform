@@ -16,7 +16,6 @@ yarn-error.log
 .env
 .phpunit.result.cache
 .DS_Store
-resources/js/routes.js
 /helm/charts/**.tgz
 /helm/Chart.lock
 _ide_helper.php
