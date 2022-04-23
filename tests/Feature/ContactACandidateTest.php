@@ -28,9 +28,8 @@ class ContactACandidateTest extends TestCase
 
     public function test_can_view_candiates_index_page()
     {
-        $response = $this->get('/candidates');
-        $response->assertStatus(200)
-            ->assertSee('Your wallet has: 20 coins');
+        $response = $this->get('/candidate-list');
+        $response->assertStatus(200);
     }
     
     public function test_candidate_can_be_contacted()
