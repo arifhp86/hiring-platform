@@ -1,5 +1,3 @@
-require('./bootstrap');
-
 import VueRouter from 'vue-router';
 import routes from './routes';
 import VueMeta from 'vue-meta';
