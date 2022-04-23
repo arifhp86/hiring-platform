@@ -84,6 +84,14 @@ export default {
     },
     methods: {
         confirmContact(candidate) {
+            if(this.coins < 5) {
+                this.$swal({
+                    icon: 'error',
+                    text: 'Sorry, you don not have enough coins to perform this action, please recharge.'
+                });
+                return;
+            }
+            
             this.$swal({
                 icon: 'info',
                 html: `Contacting <strong>${candidate.name}</strong> will cost <strong>5 coins</strong> from your wallet, click confirm button to proceed`,
