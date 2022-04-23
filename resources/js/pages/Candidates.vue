@@ -25,14 +25,14 @@
                         </span>
                     </div>
                     <div class="flex">
-                        <button v-if="! contacts.includes(candidate.id)" @click="confirmContact(candidate)" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow flex items-center justify-between space-x-1">
+                        <AppButton v-if="! contacts.includes(candidate.id)" @click="confirmContact(candidate)" class="btn btn-secondary flex items-center justify-between space-x-1">
                             <LoadingIndicator v-if="processingContactRequest === candidate" />
                             <span>Contact</span>
-                        </button>
-                        <button v-if="! hires.includes(candidate.id)" @click="confirmHire(candidate)" class="bg-white text-gray-800 font-semibold py-2 px-4 border border-gray-400 hover:bg-teal-100 rounded shadow ml-2 flex items-center justify-between space-x-1">
+                        </AppButton>
+                        <AppButton v-if="! hires.includes(candidate.id)" @click="confirmHire(candidate)" class="btn btn-primary flex items-center justify-between space-x-1 ml-2">
                             <LoadingIndicator v-if="processingHireRequest === candidate" />
                             <span>Hire</span>
-                        </button>
+                        </AppButton>
                     </div>
                 </div>
             </div>
@@ -45,12 +45,14 @@ import axios from 'axios';
 import AppLayout from "@/layouts/AppLayout.vue";
 import LoadingIndicator from '@/components/LoadingIndicator.vue';
 import CheckIcon from '@/components/CheckIcon.vue';
+import AppButton from '@/components/AppButton.vue';
 
 export default {
     components: {
         AppLayout,
         LoadingIndicator,
         CheckIcon,
+        AppButton,
     },
     metaInfo: {
       title: 'Candidates',
@@ -97,9 +99,9 @@ export default {
         contactCandidate(candidate) {
             this.processingContactRequest = candidate;
             axios.post('candidates/'+candidate.id+'/contact')
-                .then(res => {
+                .then(result => {
                     this.newContacts.push(candidate.id);
-                    this.coins = res.data.wallet_balance;
+                    this.coins = result.data.wallet_balance;
                     this.processingContactRequest = null;
 
                     this.$swal({
